@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f5e57">
+<title>كل المشاريع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f3ec;
+    --card: #ffffff;
+    --ink: #1d2b2a;
+    --muted: #66726f;
+    --line: #e6e0d2;
+    --primary: #0f5e57;
+    --primary-2: #147a70;
+    --gold: #b8893a;
+    --shadow: 0 6px 24px rgba(15, 60, 55, .08);
+    --shadow-hover: 0 12px 32px rgba(15, 60, 55, .16);
+    --hero-a: #0b4741;
+    --hero-b: #147a70;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1615;
+    --card: #15211f;
+    --ink: #e9efed;
+    --muted: #93a29e;
+    --line: #243532;
+    --primary: #3fb6a8;
+    --primary-2: #2c9488;
+    --gold: #d9ad5f;
+    --shadow: 0 6px 24px rgba(0, 0, 0, .35);
+    --shadow-hover: 0 12px 32px rgba(0, 0, 0, .5);
+    --hero-a: #0a2b28;
+    --hero-b: #10443f;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    transition: background .3s, color .3s;
+  }
+
+  /* ---------- الهيدر ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    padding: 56px 20px 84px;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,.10) 0 2px, transparent 3px) 0 0 / 34px 34px,
+      linear-gradient(140deg, var(--hero-a), var(--hero-b));
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset-inline: 0; bottom: -1px; height: 46px;
+    background: var(--bg);
+    clip-path: ellipse(60% 100% at 50% 100%);
+  }
+  .theme-btn {
+    position: absolute; top: 16px; inset-inline-start: 16px;
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.35);
+    background: rgba(255,255,255,.12);
+    color: #fff; font-size: 19px; cursor: pointer;
+    display: grid; place-items: center;
+    backdrop-filter: blur(4px);
+  }
+  .theme-btn:active { transform: scale(.94); }
+  .logo {
+    width: 68px; height: 68px; margin: 0 auto 14px;
+    border-radius: 20px; display: grid; place-items: center;
+    font-size: 34px;
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.3);
+  }
+  .hero h1 { margin: 0; font-size: clamp(26px, 6vw, 38px); font-weight: 800; letter-spacing: .3px; }
+  .hero p  { margin: 8px auto 0; max-width: 520px; opacity: .88; font-size: 16px; }
+
+  /* ---------- البحث ---------- */
+  .search-wrap {
+    max-width: 640px; margin: -34px auto 0; padding: 0 18px;
+    position: relative; z-index: 2;
+  }
+  .search {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px; padding: 4px 16px;
+    box-shadow: var(--shadow);
+  }
+  .search span { font-size: 18px; opacity: .6; }
+  .search input {
+    flex: 1; border: 0; outline: 0; background: transparent;
+    font: inherit; font-size: 16px; color: var(--ink); padding: 13px 0;
+    min-width: 0;
+  }
+  .search input::placeholder { color: var(--muted); }
+  .count { text-align: center; color: var(--muted); font-size: 14px; margin-top: 12px; }
+
+  /* ---------- المحتوى ---------- */
+  main { max-width: 1000px; margin: 8px auto 0; padding: 0 18px 40px; }
+  .section { margin-top: 34px; }
+  .section-head {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .section-icon {
+    width: 42px; height: 42px; border-radius: 13px;
+    display: grid; place-items: center; font-size: 21px;
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .section-head h2 { margin: 0; font-size: 21px; font-weight: 800; }
+  .section-head small { color: var(--muted); font-size: 14px; display: block; margin-top: -2px; }
+  .section-head::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(to left, transparent, var(--line));
+  }
+
+  .grid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  }
+  .card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px 20px 18px;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 10px;
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+    animation: rise .5s ease both;
+  }
+  .card::before {
+    content: ""; position: absolute; inset-inline: 0; top: 0; height: 4px;
+    background: var(--accent);
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .card-top { display: flex; align-items: center; gap: 12px; }
+  .card-icon {
+    flex: none; width: 50px; height: 50px; border-radius: 15px;
+    display: grid; place-items: center; font-size: 26px;
+    background: color-mix(in srgb, var(--accent) 13%, transparent);
+  }
+  .card h3 { margin: 0; font-size: 18px; line-height: 1.4; font-weight: 700; }
+  .badge {
+    display: inline-block; margin-top: 4px;
+    font-size: 12px; font-weight: 700; padding: 1px 10px; border-radius: 999px;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+  .card p { margin: 0; color: var(--muted); font-size: 14.5px; flex: 1; }
+
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .btn {
+    flex: 1 1 auto; min-width: 120px;
+    text-align: center; text-decoration: none;
+    font: inherit; font-weight: 700; font-size: 15px;
+    padding: 11px 14px; border-radius: 12px;
+    color: #fff; background: var(--accent);
+    border: 0; cursor: pointer;
+    transition: filter .15s, transform .1s;
+  }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:active { transform: scale(.97); }
+  .btn.ghost {
+    background: transparent; color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn.off {
+    background: transparent; color: var(--muted);
+    border: 1.5px dashed var(--line); cursor: not-allowed; filter: none;
+  }
+  .btn.off:active { transform: none; }
+
+  .empty { display: none; text-align: center; color: var(--muted); padding: 50px 0; }
+  .empty b { display: block; font-size: 40px; margin-bottom: 6px; }
+
+  footer {
+    text-align: center; color: var(--muted); font-size: 13.5px;
+    padding: 22px 16px 34px; border-top: 1px solid var(--line);
+    max-width: 1000px; margin: 0 auto;
+  }
+  footer .gold { color: var(--gold); font-weight: 700; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <button class="theme-btn" id="themeBtn" aria-label="تبديل الوضع الليلي">🌙</button>
+  <div class="logo">🧭</div>
+  <h1>كل المشاريع</h1>
+  <p>مشاريعي ومنصاتي التفاعلية في مكان واحد، اختر وجهتك وابدأ.</p>
+</header>
+
+<div class="search-wrap">
+  <label class="search">
+    <span>🔎</span>
+    <input id="q" type="search" placeholder="ابحث عن مشروع…" autocomplete="off">
+  </label>
+  <div class="count" id="count"></div>
+</div>
+
+<main>
+  <div id="app"></div>
+  <div class="empty" id="empty"><b>🍃</b>لا توجد نتائج مطابقة لبحثك.</div>
+</main>
+
+<footer>
+  جميع الحقوق محفوظة : <span class="gold">باسم أبو أنس</span> © 2026
+</footer>
+
+<script>
+/* ==========================================================================
+   ✏️  منطقة التعديل: أضف مشاريعك هنا فقط، ولا حاجة للمساس ببقية الملف.
+
+   • لإضافة مشروع جديد: انسخ أي كتلة { ... } داخل items وعدّل بياناتها.
+   • لإضافة قسم جديد: انسخ كتلة القسم كاملة (من { id: ... حتى نهايتها).
+   • كل مشروع يمكن أن يحتوي على زر واحد أو أكثر داخل links.
+   • للزر الذي لم يجهز بعد: اكتب soon: true وسيظهر معطّلاً بعبارة «قريباً».
+   • accent هو لون القسم بصيغة hex.
+   ========================================================================== */
+const SECTIONS = [
+  {
+    id: "science",
+    title: "التقاويم والعلوم",
+    subtitle: "أدوات تفاعلية للتاريخ والشعر",
+    icon: "📚",
+    accent: "#0f7a70",
+    items: [
+      {
+        title: "المرصد العالمي للتقاويم",
+        icon: "📅",
+        tag: "أداة",
+        desc: "محول التواريخ الذكي ومنصة لعرض ومتابعة التقاويم الهجرية والميلادية بشكل منظم وسلس.",
+        links: [
+          { label: "افتح المرصد", url: "https://bamtag2-netizen.github.io/calendars/" }
+        ]
+      },
+      {
+        title: "ميزان البحور",
+        icon: "⚖️",
+        tag: "علم العروض",
+        desc: "منصة تفاعلية لتقطيع الأبيات وضبط البحور والموازين الموسيقية للشعر العربي.",
+        links: [
+          { label: "افتح الميزان", url: "https://bamtag2-netizen.github.io/arud-mizan/" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "family",
+    title: "الأنساب والأسرة",
+    subtitle: "توثيق شجرة العائلة",
+    icon: "🌳",
+    accent: "#a8692a",
+    items: [
+      {
+        title: "شجرة آل محفوض/ظ الكاملة",
+        icon: "🌳",
+        tag: "شجرة عائلة",
+        desc: "الشجرة الكاملة لآل محفوض/ظ بفروعها وأجيالها.",
+        links: [
+          { label: "استعرض الشجرة", url: "https://bamtag2-netizen.github.io/Al-Mahfouztree/" }
+        ]
+      },
+      {
+        title: "شجرة عائلة آل محفوض/ظ الكامة 2",
+        icon: "🌿",
+        tag: "شجرة عائلة",
+        desc: "الشجرة الكاملة مع التفصيل الموسّع لذرية أحمد عبدالله محفوض.",
+        links: [
+          { label: "استعرض الشجرة", url: "https://bamtag2-netizen.github.io/Al-mahfouz-family/" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "quiz",
+    title: "المسابقات",
+    subtitle: "اختبر معلوماتك وتحدَّ أصدقاءك",
+    icon: "🏆",
+    accent: "#7b4bb0",
+    items: [
+      {
+        title: "مسابقة التجويد الفردية",
+        icon: "📖",
+        tag: "مسابقة",
+        desc: "اختبار فردي في أحكام تجويد القرآن الكريم.",
+        links: [
+          { label: "ابدأ التحدي الفردي", url: "https://bamtag2-netizen.github.io/Tajweed-Quiz-Challenge/" }
+        ]
+      },
+      {
+        title: "مسابقة التجويد الجماعية",
+        icon: "🏅",
+        tag: "مسابقة",
+        desc: "تحدٍّ جماعي تنافسي في أحكام تجويد القرآن الكريم.",
+        links: [
+          { label: "ابدأ التحدي الجماعي", url: "https://bamtag2-netizen.github.io/Tajweed-Quiz-Team-Challenge/" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "kids",
+    title: "ألعاب الأطفال",
+    subtitle: "أنشطة وألعاب تعليمية ترفيهية",
+    icon: "🧒",
+    accent: "#d1478a",
+    items: [
+      {
+        title: "الطفل الشاطر",
+        icon: "🧠",
+        tag: "لعبة تعليمية",
+        desc: "لعبة تفاعلية تنمّي مهارات الطفل الذهنية بأسلوب ممتع وشيّق.",
+        links: [
+          { label: "ابدأ اللعب", url: "https://bamtag2-netizen.github.io/smart-kid/" }
+        ]
+      }
+    ]
+  }
+];
+/* ========================== نهاية منطقة التعديل ========================== */
+
+
+/* ---------- عرض الصفحة (لا تحتاج لتعديل) ---------- */
+const app = document.getElementById('app');
+const emptyEl = document.getElementById('empty');
+const countEl = document.getElementById('count');
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function linkHTML(l, i) {
+  const ready = l.url && !l.soon;
+  if (!ready) {
+    const text = l.soon ? 'قريباً' : 'الرابط غير مضاف';
+    return `<span class="btn off" title="${esc(l.label)}">${esc(l.label)} · ${text}</span>`;
+  }
+  const cls = i === 0 ? 'btn' : 'btn ghost';
+  return `<a class="${cls}" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`;
+}
+
+function render(filter) {
+  const f = (filter || '').trim().toLowerCase();
+  let shown = 0, delay = 0;
+  let html = '';
+
+  SECTIONS.forEach(sec => {
+    const items = sec.items.filter(it =>
+      !f || (it.title + ' ' + it.desc + ' ' + (it.tag || '') + ' ' + sec.title).toLowerCase().includes(f));
+    if (!items.length) return;
+    shown += items.length;
+
+    html += `<section class="section" style="--accent:${esc(sec.accent)}">
+      <div class="section-head">
+        <div class="section-icon">${esc(sec.icon)}</div>
+        <div><h2>${esc(sec.title)}</h2>${sec.subtitle ? `<small>${esc(sec.subtitle)}</small>` : ''}</div>
+      </div>
+      <div class="grid">`;
+
+    items.forEach(it => {
+      html += `<article class="card" style="animation-delay:${(delay++ * 0.06).toFixed(2)}s">
+        <div class="card-top">
+          <div class="card-icon">${esc(it.icon)}</div>
+          <div><h3>${esc(it.title)}</h3>${it.tag ? `<span class="badge">${esc(it.tag)}</span>` : ''}</div>
+        </div>
+        <p>${esc(it.desc)}</p>
+        <div class="actions">${(it.links || []).map(linkHTML).join('')}</div>
+      </article>`;
+    });
+
+    html += `</div></section>`;
+  });
+
+  app.innerHTML = html;
+  emptyEl.style.display = shown ? 'none' : 'block';
+  const total = SECTIONS.reduce((n, s) => n + s.items.length, 0);
+  countEl.textContent = f ? `${shown} من ${total} مشاريع` : `${total} مشاريع`;
+}
+
+document.getElementById('q').addEventListener('input', e => render(e.target.value));
+render('');
+
+/* ---------- الوضع الليلي ---------- */
+const root = document.documentElement;
+const themeBtn = document.getElementById('themeBtn');
+function applyTheme(t) {
+  root.setAttribute('data-theme', t);
+  themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+  const m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.setAttribute('content', t === 'dark' ? '#0a2b28' : '#0f5e57');
+}
+let saved = null;
+try { saved = localStorage.getItem('theme'); } catch (e) {}
+applyTheme(saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+themeBtn.addEventListener('click', () => {
+  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
